@@ -1,0 +1,38 @@
+# Backup
+echo "Backup..."
+cp -v /boot/cmdline.txt /boot/cmdline.txt.bak
+
+# Driver copy
+echo "Driver copy..."
+cp -v tft35a.dtbo /boot/overlays/
+
+# Configuration
+# usercfg.txt
+echo "Adding config to /boot/usercfg.txt..."
+echo '# RPI Screen config
+
+# Enable audio (loads snd_bcm2835)
+dtparam=audio=on
+
+[pi4]
+# Enable DRM VC4 V3D driver on top of the dispmanx display stack
+dtoverlay=vc4-fkms-v3d
+max_framebuffers=2
+
+[all]
+overscan_scale=1
+
+hdmi_force_hotplug=1
+dtparam=i2c_arm=on
+dtparam=spi=on
+enable_uart=1
+dtoverlay=tft35a:rotate=90' > /boot/usercfg.txt
+
+# cmdline.txt
+echo "Adding config to /boot/cmdline.txt..."
+sed -i '1s/$/ dwc_otg.lpm_enable=0 console=tty1 console=ttyAMA0,115200 elevator=deadline rootwait fbcon=map:10 fbcon=font:ProFont6x11 logo.nologo/' /boot/cmdline.txt
+
+# Done
+echo "Done !"
+echo "Please reboot to view the screen"
+echo "If system is not booting, you might want to restore cmdline and usercfg.txt files"
