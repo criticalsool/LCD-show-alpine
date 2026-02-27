@@ -30,7 +30,7 @@ dtoverlay=tft35a:rotate=90' > /boot/usercfg.txt
 
 # cmdline.txt
 echo "Adding config to /boot/cmdline.txt..."
-sed -i '1s/$/ ipv6.disable=1 dwc_otg.lpm_enable=0 console=tty1 console=ttyAMA0,115200 elevator=deadline rootwait fbcon=map:10 fbcon=font:ProFont6x11 logo.nologo/' /boot/cmdline.txt
+sed -i '1s/$/ ipv6.disable=1 brcmfmac.roamoff=1 brcmfmac.feature_disable=0x282000 dwc_otg.lpm_enable=0 console=tty1 console=ttyAMA0,115200 elevator=deadline rootwait fbcon=map:10 fbcon=font:ProFont6x11 logo.nologo/' /boot/cmdline.txt
 
 # Done
 echo "Done !"
